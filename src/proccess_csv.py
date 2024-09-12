@@ -12,6 +12,16 @@ import os
 patternname = r"(?:.name.: .)(\w{1,}\s{0,}\w{0,})"
 patternlang = r"(?:.iso_639_1.: .)(\w{1,}\s{0,}\w{0,})"
 
+
+def generate_word_cloud(df, column):
+    df[column] = df[column].fillna('')
+    text = "".join(cat for cat in df[column][:100])
+    word_cloud = WordCloud(collocations=False, background_color='white').generate(text)
+    plt.imshow(word_cloud, interpolation='bilinear')
+    plt.axis("off")
+    plt.show()
+
+
 def dict2list(x):
     """
     Input: It expects x, a string that resembles a list of dictionaries.
@@ -70,6 +80,7 @@ def process_data():
             plt.show()
         app_logger.info("Data analysed successfully")
 
+    # generate_word_cloud(df_movies, 'overview')
 
     df_movies = df_movies.map(dict2list)
     dummy_features = ['genres']
