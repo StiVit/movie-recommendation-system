@@ -2,24 +2,14 @@ import numpy as np
 import pandas as pd
 import logging
 import re
-import seaborn as sns
 from matplotlib import pyplot as plt
-from wordcloud import WordCloud
+from src.word_analysis import generate_word_cloud, sentimental_analysis
 
 from utils.logger_setup import setup_logger
 import os
 
 patternname = r"(?:.name.: .)(\w{1,}\s{0,}\w{0,})"
 patternlang = r"(?:.iso_639_1.: .)(\w{1,}\s{0,}\w{0,})"
-
-
-def generate_word_cloud(df, column):
-    df[column] = df[column].fillna('')
-    text = "".join(cat for cat in df[column][:100])
-    word_cloud = WordCloud(collocations=False, background_color='white').generate(text)
-    plt.imshow(word_cloud, interpolation='bilinear')
-    plt.axis("off")
-    plt.show()
 
 
 def dict2list(x):
@@ -81,8 +71,8 @@ def process_data():
         app_logger.info("Data analysed successfully")
 
     # generate_word_cloud(df_movies, 'overview')
-
+    df_movies["Polarity"] = zip(*df_movies['overview'].apply(sentimental_analysis))
+    app_logger.info("Text sentiment successfully measured successfully")
     df_movies = df_movies.map(dict2list)
     dummy_features = ['genres']
     df_movies, columndictionary = dict2dummy(df_movies, dummy_features)
-
