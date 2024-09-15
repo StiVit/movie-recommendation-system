@@ -19,4 +19,4 @@ def sentimental_analysis(text):
     polarity: how positive or negative the sentiment is
     """
     sentiment = TextBlob(str(text)).sentiment
-    return sentiment.polarity
+    return sentiment.polarity, sentiment.subjectivity

@@ -2,10 +2,9 @@ import numpy as np
 import pandas as pd
 import logging
 import re
-from matplotlib import pyplot as plt
 from src.word_analysis import generate_word_cloud, sentimental_analysis
-
 from utils.logger_setup import setup_logger
+from utils.structured_output import structure_output
 import os
 
 patternname = r"(?:.name.: .)(\w{1,}\s{0,}\w{0,})"
@@ -54,25 +53,11 @@ def process_data():
     app_logger = setup_logger("app_logger", logging.INFO)
     pd.set_option('display.max_columns', None)
     # Get some more info about the data I'm working with
-    if os.path.isfile('dataset/data_frame_analysis'):
-        app_logger.info("File with data analyse exists")
-    else:
-        with open('dataset/data_frame_analysis', 'w') as output:
-            output.write(f"Movies DF:\n\n{df_movies.head()}\n")
-            output.write("\n\nMovies DF:\n")
-            output.write(f"{df_movies.info()}\n\n")
-            output.write(f"{df_movies.describe()}\n\n")
-            output.write(f"{df_movies['original_language'].value_counts()}")
-            output.write(f"\n{df_movies['status'].value_counts()}")
-            output.write(f"\n\nDuplicates:\n\n{df_movies.duplicated().sum()}")
-            output.write(f"\n\nNulls:\n\n{df_movies.isnull().sum()}\n\n**************************************\n\n")
-            df_movies.hist(figsize=(20, 12), bins=100)
-            plt.show()
-        app_logger.info("Data analysed successfully")
+    structure_output(df_movies)
 
     # generate_word_cloud(df_movies, 'overview')
-    df_movies["Polarity"] = zip(*df_movies['overview'].apply(sentimental_analysis))
-    app_logger.info("Text sentiment successfully measured successfully")
+    df_movies["polarity"], df_movies["subjectivity"] = zip(*df_movies['overview'].apply(sentimental_analysis))
+    app_logger.info("Text sentiment measured successfully")
     df_movies = df_movies.map(dict2list)
     dummy_features = ['genres']
     df_movies, columndictionary = dict2dummy(df_movies, dummy_features)
