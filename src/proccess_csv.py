@@ -2,10 +2,8 @@ import numpy as np
 import pandas as pd
 import logging
 import re
-from src.word_analysis import generate_word_cloud, sentimental_analysis
+from src.word_analysis import sentimental_analysis
 from utils.logger_setup import setup_logger
-from utils.structured_output import structure_output
-import os
 
 patternname = r"(?:.name.: .)(\w{1,}\s{0,}\w{0,})"
 patternlang = r"(?:.iso_639_1.: .)(\w{1,}\s{0,}\w{0,})"
@@ -52,10 +50,7 @@ def process_data():
     df_movies = pd.read_csv('dataset/tmdb_5000_movies.csv')
     app_logger = setup_logger("app_logger", logging.INFO)
     pd.set_option('display.max_columns', None)
-    # Get some more info about the data I'm working with
-    structure_output(df_movies)
 
-    # generate_word_cloud(df_movies, 'overview')
     df_movies["polarity"], df_movies["subjectivity"] = zip(*df_movies['overview'].apply(sentimental_analysis))
     app_logger.info("Text sentiment measured successfully")
     df_movies = df_movies.map(dict2list)
