@@ -56,3 +56,4 @@ def process_data():
     df_movies = df_movies.map(dict2list)
     dummy_features = ['genres']
     df_movies, columndictionary = dict2dummy(df_movies, dummy_features)
+    return df_movies, columndictionary
