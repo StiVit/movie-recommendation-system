@@ -3,7 +3,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 if __name__ == "__main__":
     df_movies, columndictionary = process_data()
-    genre_columns = df_movies.columns[21:]
+    genre_columns = df_movies.columns[24:]
 
     user_preference = [1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0]
     df_movies['similarity'] = cosine_similarity([user_preference], df_movies[genre_columns])[0]
