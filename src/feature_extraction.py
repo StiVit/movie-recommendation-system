@@ -45,6 +45,19 @@ def extract_features(text):
     }
 
 
+def get_genres(user_input, columndictionary):
+    genres = columndictionary['genres']
+    user_input = user_input.lower().title().split(' ')
+    user_preferences = [0 for _ in range(20)]
+
+    for genre in genres:
+        genre = genre.lower().title()
+        if genre in user_input:
+            user_preferences[genres.index(genre)] = 1
+
+    return user_preferences
+
+
 if __name__ == "__main__":
     # Example
     text = "In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission."

@@ -56,9 +56,8 @@ def process_data():
     data_processing_logger.info("Text sentiment measured successfully")
 
     df_movies['overview'] = df_movies['overview'].fillna("")
-    df_movies[['time', 'location', 'plot_keywords']] = df_movies['overview'].apply(lambda x: pd.Series(extract_features(x)))
+    # df_movies[['time', 'location', 'plot_keywords']] = df_movies['overview'].apply(lambda x: pd.Series(extract_features(x)))
     data_processing_logger.info("Features successfully extracted")
-    print(df_movies.head())
 
     df_movies = df_movies.map(dict2list)
     dummy_features = ['genres']
