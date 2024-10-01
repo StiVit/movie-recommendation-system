@@ -6,6 +6,8 @@ if __name__ == "__main__":
     df_movies, columndictionary = process_data()
     genre_columns = df_movies.columns[21:]
 
+    # Test input:
+    # I think i like movies that are in the genre of action fantasy, maybe some thriller and drama
     user_input = input("What genres do you like in a movie:\n")
     user_preference = get_genres(user_input, columndictionary)
     df_movies['similarity'] = cosine_similarity([user_preference], df_movies[genre_columns])[0]

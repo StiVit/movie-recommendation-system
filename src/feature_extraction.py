@@ -1,8 +1,11 @@
 import spacy
 from spacy.matcher import PhraseMatcher
+import logging
+from utils.logger_setup import setup_logger
 
 # Load pre-trained model
 nlp = spacy.load("en_core_web_sm")
+feature_extraction_logger = setup_logger("feature_extraction", logging.INFO)
 
 # Custom list of fictional locations (expand this as needed)
 fictional_locations = ["Pandora", "Wakanda", "Middle Earth"]
@@ -50,13 +53,15 @@ def get_genres(user_input, columndictionary):
     genres = columndictionary['genres']
 
     # Process the user input into a list of genres
-    user_input = user_input.lower().title().split(' ')
+    user_input = user_input.lower().title()
     user_preferences = [0 for _ in range(20)]
 
     # Extract the existing genres from the user input
+    feature_extraction_logger.info("The following genres were extracted:")
     for genre in genres:
         genre = genre.lower().title()
         if genre in user_input:
+            feature_extraction_logger.info(genre)
             user_preferences[genres.index(genre)] = 1
 
     return user_preferences
