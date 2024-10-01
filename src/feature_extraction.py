@@ -46,10 +46,14 @@ def extract_features(text):
 
 
 def get_genres(user_input, columndictionary):
+    # Get the list of the available genres
     genres = columndictionary['genres']
+
+    # Process the user input into a list of genres
     user_input = user_input.lower().title().split(' ')
     user_preferences = [0 for _ in range(20)]
 
+    # Extract the existing genres from the user input
     for genre in genres:
         genre = genre.lower().title()
         if genre in user_input:
