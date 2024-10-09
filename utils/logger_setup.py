@@ -5,7 +5,7 @@ def setup_logger(name: str, level: int = logging.INFO) -> logging.Logger:
     Function to set up a logger with a specific name and log level.
     Logs are output to the console.
     """
-    logger = logging.getLoger(name)
+    logger = logging.getLogger(name)
 
     if not logger.hasHandlers():
         handler = logging.StreamHandler()
