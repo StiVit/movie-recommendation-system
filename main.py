@@ -12,5 +12,6 @@ if __name__ == "__main__":
     user_preference = get_genres(user_input, columndictionary)
     df_movies['similarity'] = cosine_similarity([user_preference], df_movies[genre_columns])[0]
 
+    # Sorting the values of the recommendations descending to find the best 10
     top_n_recommendation = df_movies[['title', 'similarity']].sort_values(by='similarity', ascending=False).head(10)
     print(top_n_recommendation)
